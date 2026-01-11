@@ -22,7 +22,7 @@ from dex_retargeting.retargeting_config import RetargetingConfig
 from single_hand_detector import SingleHandDetector
 
 
-def start_retargeting(queue: multiprocessing.Queue, robot_dir: str, config_path: str):
+def start_retargeting(queue: multiprocessing.Queue, ready_event: multiprocessing.Event, robot_dir: str, config_path: str):
     RetargetingConfig.set_default_urdf_dir(str(robot_dir))
     logger.info(f"Start retargeting with config {config_path}")
     retargeting = RetargetingConfig.load_from_file(config_path).build()
@@ -117,6 +117,10 @@ def start_retargeting(queue: multiprocessing.Queue, robot_dir: str, config_path:
         [retargeting_joint_names.index(name) for name in sapien_joint_names]
     ).astype(int)
 
+    # Signal that initialization is complete and camera can start
+    logger.info("Hand initialized, signaling camera to start")
+    ready_event.set()
+
     while True:
         try:
             bgr = queue.get(timeout=5)
@@ -152,7 +156,10 @@ def start_retargeting(queue: multiprocessing.Queue, robot_dir: str, config_path:
             viewer.render()
 
 
-def produce_frame(queue: multiprocessing.Queue, camera_path: Optional[str] = None):
+def produce_frame(queue: multiprocessing.Queue, ready_event: multiprocessing.Event, camera_path: Optional[str] = None):
+    # Wait for the retargeting scene to be initialized before starting camera
+    ready_event.wait()
+
     if camera_path is None:
         cap = cv2.VideoCapture(0)
     else:
@@ -189,15 +196,18 @@ def main(
     )
 
     queue = multiprocessing.Queue(maxsize=1000)
-    producer_process = multiprocessing.Process(
-        target=produce_frame, args=(queue, camera_path)
-    )
+    ready_event = multiprocessing.Event()
+
     consumer_process = multiprocessing.Process(
-        target=start_retargeting, args=(queue, str(robot_dir), str(config_path))
+        target=start_retargeting, args=(queue, ready_event, str(robot_dir), str(config_path))
+    )
+    producer_process = multiprocessing.Process(
+        target=produce_frame, args=(queue, ready_event, camera_path)
     )
 
-    producer_process.start()
+    # Start consumer first to initialize the scene, then producer will start camera when ready
     consumer_process.start()
+    producer_process.start()
 
     producer_process.join()
     consumer_process.join()
