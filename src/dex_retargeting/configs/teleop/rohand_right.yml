@@ -1,0 +1,12 @@
+retargeting:
+  type: vector
+  urdf_path: rohand/rohand_right.urdf
+
+  target_joint_names: [ 'lf_proximal_link', 'rf_proximal_link', 'mf_proximal_link', 'if_proximal_link',
+                        'th_root_link', 'th_proximal_link' ]
+  target_origin_link_names: [ "base", "base", "base", "base", "base" ]
+  target_task_link_names: [ "th_tip", "if_tip", "mf_tip", "rf_tip", "lf_tip" ]
+  scaling_factor: 1.15
+
+  target_link_human_indices: [ [ 0, 0, 0, 0, 0 ], [ 4, 8, 12, 16, 20 ] ]
+  low_pass_alpha: 0.2
