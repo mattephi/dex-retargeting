@@ -26,9 +26,9 @@ classifiers = [
 urls = { "Homepage" = "https://github.com/dexsuite/dex-retargeting" }
 
 dependencies = [
-    "numpy>=2.0.0",
+    "numpy>=1.24,<2",
     "pytransform3d>=3.5.0",
-    "pin>=3.3.1",
+    # "pin>=3.3.1",  # Provided by conda as 'pinocchio'
     "nlopt>=2.8.0",
     "anytree>=2.12.0",
     "pyyaml>=6.0.0",
