@@ -6,6 +6,6 @@ retargeting:
                         'th_root_link', 'th_proximal_link' ]
   wrist_link_name: "base"
   finger_tip_link_names: [ "th_tip", "if_tip", "mf_tip", "rf_tip", "lf_tip" ]
-  scaling_factor: 0.8
+  scaling_factor: 1.15
 
   low_pass_alpha: 0.2
