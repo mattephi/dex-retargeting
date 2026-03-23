@@ -1,0 +1,11 @@
+retargeting:
+  type: DexPilot
+  urdf_path: rohand/rohand_right.urdf
+
+  target_joint_names: [ 'lf_proximal_link', 'rf_proximal_link', 'mf_proximal_link', 'if_proximal_link',
+                        'th_root_link', 'th_proximal_link' ]
+  wrist_link_name: "base"
+  finger_tip_link_names: [ "th_tip", "if_tip", "mf_tip", "rf_tip", "lf_tip" ]
+  scaling_factor: 0.8
+
+  low_pass_alpha: 0.2
