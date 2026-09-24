@@ -1,0 +1,15 @@
+retargeting:
+  type: vector
+  urdf_path: omnihand/omnihand_left.urdf
+
+  # The 10 active joints, in the order the OmniHand driver publishes them on
+  # /omnihand/joint_states. The pip/dip joints that are <mimic> follow on their own.
+  target_joint_names: [ 'L_thumb_roll_joint', 'L_thumb_abad_joint', 'L_thumb_mcp_joint',
+                        'L_index_abad_joint', 'L_index_pip_joint', 'L_middle_pip_joint',
+                        'L_ring_abad_joint', 'L_ring_pip_joint', 'L_pinky_abad_joint', 'L_pinky_pip_joint' ]
+  target_origin_link_names: [ "base_link", "base_link", "base_link", "base_link", "base_link" ]
+  target_task_link_names: [ "L_thumb_tip", "L_index_tip", "L_middle_tip", "L_ring_tip", "L_pinky_tip" ]
+  scaling_factor: 1.0
+
+  target_link_human_indices: [ [ 0, 0, 0, 0, 0 ], [ 4, 8, 12, 16, 20 ] ]
+  low_pass_alpha: 0.2

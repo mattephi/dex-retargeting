@@ -1,0 +1,12 @@
+retargeting:
+  type: DexPilot
+  urdf_path: omnihand/omnihand_left.urdf
+
+  target_joint_names: [ 'L_thumb_roll_joint', 'L_thumb_abad_joint', 'L_thumb_mcp_joint',
+                        'L_index_abad_joint', 'L_index_pip_joint', 'L_middle_pip_joint',
+                        'L_ring_abad_joint', 'L_ring_pip_joint', 'L_pinky_abad_joint', 'L_pinky_pip_joint' ]
+  wrist_link_name: "base_link"
+  finger_tip_link_names: [ "L_thumb_tip", "L_index_tip", "L_middle_tip", "L_ring_tip", "L_pinky_tip" ]
+  scaling_factor: 1.0
+
+  low_pass_alpha: 0.2
